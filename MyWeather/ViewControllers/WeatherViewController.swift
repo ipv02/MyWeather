@@ -1,9 +1,4 @@
-//
-//  WeatherViewController.swift
-//  MyWeather
-//
-//  Created by Elena Igumenova on 16.12.2020.
-//
+
 
 import UIKit
 

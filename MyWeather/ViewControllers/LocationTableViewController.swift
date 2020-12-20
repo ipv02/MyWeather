@@ -1,45 +1,44 @@
-//
-//  LocationTableViewController.swift
-//  MyWeather
-//
-//  Created by Elena Igumenova on 16.12.2020.
-//
+
 
 import UIKit
 
 class LocationTableViewController: UITableViewController {
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        tableView.rowHeight = 100
+        
+        
+        
+        NetworkManager.shared.fetchCityWeather(forCity: "Moscow") { cityWeather in
+            guard let cityWeather = cityWeather else {
+                DispatchQueue.main.async {
+                    self.errorAlertController()
+                }
+                return
+            }
+            DataManager.shared.cities.append(cityWeather)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        DataManager.shared.cities.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "locationCell", for: indexPath) as! LocationTableViewCell
+        
+        let cityWeather = DataManager.shared.cities[indexPath.row]
+        cell.configureCell(for: cityWeather)
+        
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -86,4 +85,14 @@ class LocationTableViewController: UITableViewController {
     }
     */
 
+}
+
+extension LocationTableViewController {
+    
+    func errorAlertController() {
+        let alertController = UIAlertController(title: "Wrong city!", message: "Try again", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true,completion: nil)
+    }
 }
