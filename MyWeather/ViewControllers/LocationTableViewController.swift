@@ -4,13 +4,12 @@ import UIKit
 
 class LocationTableViewController: UITableViewController {
     
-    
+    //MARK: - Life cicle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.rowHeight = 100
-        
-        
+        tableView.rowHeight = 80
+        navigationItem.leftBarButtonItem = editButtonItem
         
         NetworkManager.shared.fetchCityWeather(forCity: "Moscow") { cityWeather in
             guard let cityWeather = cityWeather else {
@@ -39,55 +38,70 @@ class LocationTableViewController: UITableViewController {
         
         return cell
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    // MARK: - Table view delegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let currentCityWeather = DataManager.shared.cities[indexPath.row]
+        performSegue(withIdentifier: "detailWeather", sender: currentCityWeather)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let currentCity = DataManager.shared.cities.remove(at: sourceIndexPath.row)
+        DataManager.shared.cities.insert(currentCity, at: destinationIndexPath.row)
+    }
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        DataManager.shared.cities.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .automatic)
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
+    
+    
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "detailWeather" {
+            let weatherVC = segue.destination as! WeatherViewController
+            weatherVC.currentCityWeather = sender as? CityWeather
+        }
     }
-    */
 
+    //MARK: - IB Action
+    @IBAction func addNewCity(_ sender: UIBarButtonItem) {
+        addNewCityAlertController() { [unowned self] newCity in
+            NetworkManager.shared.fetchCityWeather(forCity: newCity) { cityWeather in
+                guard let cityWeather = cityWeather else {
+                    DispatchQueue.main.async {
+                        self.errorAlertController()
+                    }
+                    return
+                }
+                DataManager.shared.cities.append(cityWeather)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
 }
 
+//MARK: - Alert controller
 extension LocationTableViewController {
+    
+    func addNewCityAlertController(completion: @escaping (String) -> Void) {
+        let alertController = UIAlertController(title: "Add New City", message: nil, preferredStyle: .alert)
+        let addAction = UIAlertAction(title: "Add", style: .default) { action in
+            let textField = alertController.textFields?.first
+            guard let newCity = textField?.text, newCity.isEmpty == false else { return }
+            let city = newCity.split(separator: " ").joined(separator: "%20")
+            completion(city)
+        }
+        alertController.addTextField(configurationHandler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        alertController.addAction(addAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
     
     func errorAlertController() {
         let alertController = UIAlertController(title: "Wrong city!", message: "Try again", preferredStyle: .alert)

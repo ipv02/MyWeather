@@ -20,6 +20,7 @@
 		8454F5A9258BE15C00F45F40 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8454F5A8258BE15C00F45F40 /* NetworkManager.swift */; };
 		8454F5BE258F74EC00F45F40 /* CityWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8454F5BD258F74EC00F45F40 /* CityWeather.swift */; };
 		8454F5C1258FB4EE00F45F40 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8454F5C0258FB4EE00F45F40 /* DataManager.swift */; };
+		8454F5C62593AE0400F45F40 /* WeatherCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8454F5C52593AE0300F45F40 /* WeatherCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		8454F5A8258BE15C00F45F40 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		8454F5BD258F74EC00F45F40 /* CityWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeather.swift; sourceTree = "<group>"; };
 		8454F5C0258FB4EE00F45F40 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		8454F5C52593AE0300F45F40 /* WeatherCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				8454F59925895FAA00F45F40 /* LocationTableViewCell.swift */,
+				8454F5C52593AE0300F45F40 /* WeatherCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			files = (
 				8454F5BE258F74EC00F45F40 /* CityWeather.swift in Sources */,
 				8454F5C1258FB4EE00F45F40 /* DataManager.swift in Sources */,
+				8454F5C62593AE0400F45F40 /* WeatherCollectionViewCell.swift in Sources */,
 				8454F59A25895FAA00F45F40 /* LocationTableViewCell.swift in Sources */,
 				8454F59425895F0300F45F40 /* LocationTableViewController.swift in Sources */,
 				8454F58025894C1100F45F40 /* MyWeather.xcdatamodeld in Sources */,

@@ -13,11 +13,6 @@ struct CityWeather {
         String(format: "%.0f", temperature)
     }
     
-//    let idWeather: Int
-//    var stringIdWeather: String {
-//        String(format: "%.0f", idWeather)
-//    }
-    
     let idWeather: Int
     var iconString: String {
         switch idWeather {
@@ -34,11 +29,50 @@ struct CityWeather {
     
     let iconWeather: String
     
+    let windSpeed: Double
+    var stringWindSpeed: String {
+        String(format: "%.1f", windSpeed)
+    }
+    
+    let humidity: Int
+    var humidityString: String {
+        String(humidity)
+    }
+    
+    let sunrise: Double
+    var sunriseString: String {
+        String(sunrise)
+    }
+    
+    let sunset: Double
+    var sunsetString: String {
+        String(sunset)
+    }
+    
+    let dt: Double
+//    var dtString: String {
+//        String(dt)
+//    }
+    
+    let timeZone: Double
+    var timeZoneString: String {
+        String(timeZone)
+    }
+    
+    var list: [List]
+    
     init?(cityWeatherData: CityWeatherData) {
         cityName = cityWeatherData.city.name
         descriptionWeather = cityWeatherData.list.first?.weather.last?.description ?? ""
-        temperature = cityWeatherData.list.last?.main.temp ?? 0.0
+        temperature = cityWeatherData.list.first?.main.temp ?? 0.0
         idWeather = cityWeatherData.list.first?.weather.first?.id ?? 0
         iconWeather = cityWeatherData.list.first?.weather.first?.icon ?? ""
+        windSpeed = cityWeatherData.list.first?.wind.speed ?? 0.0
+        humidity = cityWeatherData.list.first?.main.humidity ?? 0
+        sunrise = cityWeatherData.city.sunrise
+        sunset = cityWeatherData.city.sunset
+        dt = cityWeatherData.list.first?.dt ?? 0.0
+        timeZone = cityWeatherData.city.timezone
+        list = cityWeatherData.list
     }
 }
