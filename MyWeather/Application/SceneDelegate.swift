@@ -1,9 +1,4 @@
-//
-//  SceneDelegate.swift
-//  MyWeather
-//
-//  Created by Elena Igumenova on 15.12.2020.
-//
+
 
 import UIKit
 

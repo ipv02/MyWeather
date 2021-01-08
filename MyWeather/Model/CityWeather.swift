@@ -16,13 +16,13 @@ struct CityWeather {
     let idWeather: Int
     var iconString: String {
         switch idWeather {
-        case 200...232: return "storm"
-        case 300...321: return "rain"
-        case 500...531: return "rainCloud"
-        case 600...622: return "snow"
-        case 701...781: return "wind"
-        case 800: return "sun"
-        case 801...804: return "clouds"
+        case 200...232: return "cloud.bolt.rain"
+        case 300...321: return "cloud.rain"
+        case 500...531: return "cloud.sun.rain"
+        case 600...622: return "cloud.snow"
+        case 701...781: return "smoke"
+        case 800: return "sun.max"
+        case 801...804: return "cloud.sun"
         default: return "nosign"
         }
     }
@@ -50,9 +50,6 @@ struct CityWeather {
     }
     
     let dt: Double
-//    var dtString: String {
-//        String(dt)
-//    }
     
     let timeZone: Double
     var timeZoneString: String {

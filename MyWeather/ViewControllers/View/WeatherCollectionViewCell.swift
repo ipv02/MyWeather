@@ -14,12 +14,8 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         
         dateLabel.text = timeSetting(unixTimeValue: fewDaysWeather.dt,
                                      timeZone: "10800")
-        weatherImage.image = UIImage(named: fewDaysWeather.weather.first!.iconString)
+        weatherImage.image = UIImage(systemName: fewDaysWeather.weather.first!.iconString)
         temperatureLabel.text = fewDaysWeather.main.stringTemperature + "°"
-        
-//        dateLabel.text = timeSetting(unixTimeValue: fewDaysWeather.dt, timeZone: fewDaysWeather.timeZoneString)
-//        weatherImage.image = UIImage(named: fewDaysWeather.iconString)
-//        temperatureLabel.text = fewDaysWeather.stringTemperature
     }
     
     func timeSetting(unixTimeValue: Double, timeZone: String) -> String {

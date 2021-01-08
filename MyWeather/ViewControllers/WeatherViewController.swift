@@ -5,10 +5,8 @@ import UIKit
 class WeatherViewController: UIViewController {
     
     //MARK: - Properties
-    let unixTimeMoscow = 1608672734
     var currentCityWeather: CityWeather!
     var cityWeatherData: CityWeatherData!
-    let sectionInserts = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     
     //MARK: - IB Outlet
     @IBOutlet weak var cityNameLabel: UILabel!
@@ -25,23 +23,24 @@ class WeatherViewController: UIViewController {
     //MARK: - Life cicle
     override func viewDidLoad() {
         super.viewDidLoad()
-        //navigationController?.navigationBar.isHidden = true
+        
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.layer.borderWidth = 0.5
+        collectionView.layer.borderColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         
-        updateInterface()
+        setupWeatherData()
         setupNavigationBar()
-
     }
 
     //MARK: - UI
-    func updateInterface() {
+    func setupWeatherData() {
         navigationItem.title = dateSetting(unixTimeValue: currentCityWeather.dt,
                                                   timeZone: currentCityWeather.timeZoneString)
         cityNameLabel.text? = currentCityWeather.cityName
         descriptionLabel.text = currentCityWeather.descriptionWeather
         temperatureLabel.text = currentCityWeather.stringTemperature + "°"
-        iconImage.image = UIImage(named: currentCityWeather.iconString)
+        iconImage.image = UIImage(systemName: currentCityWeather.iconString)
         
         windSpeedLabel.text = currentCityWeather.stringWindSpeed + " " + "m/s"
         humidityLabel.text = currentCityWeather.humidityString + " " + "%"
@@ -52,12 +51,11 @@ class WeatherViewController: UIViewController {
                                        timeZone: currentCityWeather.sunsetString)
     }
     
-    //MARK: - Setup navigation bar and button
+    //MARK: - Setup bar button item
     private func setupNavigationBar() {
         
         if let topItem = navigationController?.navigationBar.topItem {
             topItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-            topItem.backBarButtonItem?.tintColor = .black
         }
     }
     
@@ -68,7 +66,7 @@ class WeatherViewController: UIViewController {
         dateFormatter.dateStyle = .none
         dateFormatter.timeStyle = .short
         dateFormatter.timeZone = TimeZone(abbreviation: timeZone)
-        //dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.locale = Locale.autoupdatingCurrent
         let currentDateAndTime = dateFormatter.string(from: dateAndTime as Date)
         return currentDateAndTime
     }
@@ -96,15 +94,15 @@ extension WeatherViewController: UICollectionViewDataSource, UICollectionViewDel
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "weather", for: indexPath) as! WeatherCollectionViewCell
         let fewDaysWeather = currentCityWeather.list[indexPath.item]
         cell.configureCollectionViewCell(for: fewDaysWeather)
-        
-        //cell.layer.borderWidth = 1
-        
         return cell
     }
-    
 }
 
 extension WeatherViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: 80, height: 90)
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         0

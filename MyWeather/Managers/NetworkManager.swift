@@ -20,7 +20,6 @@ class NetworkManager {
             guard let data = data else { return }
             
             let decoder = JSONDecoder()
-            //decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
                 let cityWeatherData = try decoder.decode(CityWeatherData.self, from: data)

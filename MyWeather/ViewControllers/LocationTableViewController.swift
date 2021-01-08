@@ -1,8 +1,13 @@
 
 
 import UIKit
+import CoreData
 
 class LocationTableViewController: UITableViewController {
+    
+    //MARK: - Properties
+    private let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var locationWeather: [LocationWeather] = []
     
     //MARK: - Life cicle
     override func viewDidLoad() {
@@ -23,6 +28,7 @@ class LocationTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
+        fetchData()
     }
 
     // MARK: - Table view data source
@@ -56,7 +62,6 @@ class LocationTableViewController: UITableViewController {
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
     
-    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailWeather" {
@@ -67,6 +72,7 @@ class LocationTableViewController: UITableViewController {
 
     //MARK: - IB Action
     @IBAction func addNewCity(_ sender: UIBarButtonItem) {
+        
         addNewCityAlertController() { [unowned self] newCity in
             NetworkManager.shared.fetchCityWeather(forCity: newCity) { cityWeather in
                 guard let cityWeather = cityWeather else {
@@ -91,12 +97,14 @@ extension LocationTableViewController {
         let alertController = UIAlertController(title: "Add New City", message: nil, preferredStyle: .alert)
         let addAction = UIAlertAction(title: "Add", style: .default) { action in
             let textField = alertController.textFields?.first
-            guard let newCity = textField?.text, newCity.isEmpty == false else { return }
+            guard let newCity = textField?.text, !newCity.isEmpty else { return }
             let city = newCity.split(separator: " ").joined(separator: "%20")
+            self.save(city)
             completion(city)
         }
         alertController.addTextField(configurationHandler: nil)
         let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alertController.view.tintColor = UIColor.black
         
         alertController.addAction(addAction)
         alertController.addAction(cancelAction)
@@ -108,5 +116,34 @@ extension LocationTableViewController {
         let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true,completion: nil)
+    }
+}
+
+//MARK: - Core Data
+extension LocationTableViewController {
+    
+    private func save(_ cityName: String) {
+        guard let entityDescription = NSEntityDescription.entity(forEntityName: "LocationWeather",
+                                                                 in: viewContext) else { return }
+        guard let location = NSManagedObject(entity: entityDescription,
+                                             insertInto: viewContext) as? LocationWeather else { return }
+        location.city = cityName
+        locationWeather.append(location)
+        
+        do {
+            try viewContext.save()
+        } catch let error {
+            print(error)
+        }
+    }
+    
+    private func fetchData() {
+        let fetchRequest: NSFetchRequest<LocationWeather> = LocationWeather.fetchRequest()
+        
+        do {
+            locationWeather = try viewContext.fetch(fetchRequest)
+        } catch let error {
+            print(error)
+        }
     }
 }
