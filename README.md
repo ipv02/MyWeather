@@ -3,6 +3,8 @@
 ## Description
 Application for displaying the weather of selected cities five days ahead in steps of three hours.
 
+## Result
+
 
 ## API
 [OpenWeather](https://openweathermap.org/)
