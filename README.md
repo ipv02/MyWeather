@@ -9,8 +9,8 @@ Application for displaying the weather of selected cities five days ahead in ste
 
 ## What did I use
 - [x] AutoLayout;
-- [ ] Local data storage;
-- [ ] CoreData;
+- [x] Local data storage;
+- [x] CoreData;
 - [x] Networking;
 - [ ] Some combination of Swift and Objective-C;
 - [ ] UI layout is handled for both iPad and iPhone;
