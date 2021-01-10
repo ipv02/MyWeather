@@ -1,6 +1,6 @@
 # My Weather App
-<p align="center">
-  <img src="https://github.com/ipv02/MyWeather/blob/main/Screenshots/logo.jpg" width="67px" height="67px"/></p>
+
+  <img src="https://github.com/ipv02/MyWeather/blob/main/Screenshots/logo.jpg" width="80px" height="80px"/></p>
 Application for displaying the weather of selected cities five days ahead in steps of three hours
 
 
