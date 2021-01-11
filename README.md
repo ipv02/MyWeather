@@ -1,10 +1,16 @@
 # My Weather App
-  <img src="https://github.com/ipv02/MyWeather/blob/main/Screenshots/logo.jpg" width="80px" height="80px"/></p>
+<img src="https://github.com/ipv02/MyWeather/blob/main/Screenshots/logo.jpg" width="80px" height="80px"/></p>
 ## Description
 Application for displaying the weather of selected cities five days ahead in steps of three hours.
 
 ## Result
+#### Main and Details screen
+<p align="center">
+<img src="https://github.com/ipv02/MyWeather/blob/main/Screenshots/Screenshots_1.jpg" width="699px" height="450px"/></p>
 
+#### Main and Details screen - Dark mode
+<p align="center">
+<img src="https://github.com/ipv02/MyWeather/blob/main/Screenshots/Scrennshots_2.jpg" width="457px" height="455px"/></p>
 
 ## API
 [OpenWeather](https://openweathermap.org/)
